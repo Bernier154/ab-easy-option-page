@@ -7,6 +7,28 @@ defined( 'ABSPATH' ) || exit;
 
 class AdminPage {
 
+    /**
+     * create_menu_page
+     *
+     * @return void
+     */
+    public static function create_menu_page(){
+        add_menu_page( 
+            apply_filters('ABOP_option_page_title',__('Option page','ABOP')), 
+            apply_filters('ABOP_option_menu_title',__('Site Options','ABOP')), 
+            apply_filters('ABOP_capabilities','edit_posts'), 
+            'abop_option_editing_page', 
+            __CLASS__.'::generate', 
+            'dashicons-admin-generic',
+            apply_filters('ABOP_menu_position',59)
+        );
+    }
+    
+    /**
+     * generate the content of the option page
+     *
+     * @return void
+     */
     public static function generate() {
         $manager = OptionManager::get_instance();
         $options = $manager->get_registered_options();

@@ -32,7 +32,7 @@ class Option {
     }
 
     /**
-     * print_field
+     * Choose what field to print in the admin page depending on the option type.
      *
      * @return void
      */
@@ -102,6 +102,7 @@ class Option {
 
     /**
      * get_value
+     * If cached, returns the cached value. Can be overriden.
      *
      * @return mixed
      */
@@ -123,7 +124,7 @@ class Option {
     }
     
     /**
-     * fetch_value
+     * Fetch the value of the option and cache it.
      *
      * @return mixed
      */

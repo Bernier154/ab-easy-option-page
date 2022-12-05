@@ -18,16 +18,20 @@
 defined( 'ABSPATH' ) || exit;
 
 define('ABOP_BASE_FILE',__FILE__);
+define('ABOP_BASE_DIR',__DIR__);
 
 if (is_admin()) {
-    include "classes/admin/admin-menu.php";
     include "classes/admin/admin-page.php";
     include "classes/admin/admin-fields.php";
     include "classes/admin/updater.php";
-
-    add_action('admin_menu', 'ABOP\Classes\Admin\AdminMenu::create_menu_page');
+    add_action('admin_menu', 'ABOP\Classes\Admin\AdminPage::create_menu_page');
 }
 include "traits/singleton.php";
 include "classes/option-manager.php";
 include "classes/option.php";
 include "includes/helpers.php";
+
+add_action('init', 'abop_localize');
+function abop_localize(){
+    load_plugin_textdomain('abop', FALSE, dirname(plugin_basename(__FILE__)).'/languages/');
+}

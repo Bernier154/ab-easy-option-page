@@ -10,8 +10,7 @@ class Updater {
     public $cache_allowed;
 
     public function __construct() {
-
-        $this->plugin_slug = plugin_basename( __DIR__ );
+        $this->plugin_slug = plugin_basename( ABOP_BASE_DIR );
         $this->version = \get_plugin_data(ABOP_BASE_FILE, false, false)['Version'];
         $this->cache_key = 'abop_update_request';
         $this->cache_allowed = false;
@@ -24,11 +23,9 @@ class Updater {
     }
 
     public function request(){
-
         $remote = get_transient( $this->cache_key );
 
         if( false === $remote || ! $this->cache_allowed ) {
-
             $remote = wp_remote_get(
                 'https://antoinebernier.com/plugins/ab-easy-option-page/update/update-info.php',
                 array(
@@ -38,11 +35,9 @@ class Updater {
                     )
                 )
             );
-
             if( is_wp_error( $remote ) || 200 !== wp_remote_retrieve_response_code( $remote ) || empty( wp_remote_retrieve_body( $remote ) ) ) {
                 return false;
             }
-
             set_transient( $this->cache_key, $remote, DAY_IN_SECONDS );
 
         }
@@ -114,7 +109,13 @@ class Updater {
     }
 
     public function add_info_button($links_array, $plugin_file_name, $plugin_data, $status){
-        if( strpos( $plugin_file_name, basename( ABOP_BASE_FILE ) ) ) {
+        if( strpos( $plugin_file_name, 'ab-easy-option-page' ) !== false ) {
+
+            foreach($links_array as $link){
+                if(strpos($link,'tab=plugin-information') !== false){
+                    return $links_array;
+                }
+            }
 
             $links_array[] = sprintf(
                 '<a href="%s" class="thickbox open-plugin-details-modal">%s</a>',

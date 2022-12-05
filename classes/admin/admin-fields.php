@@ -3,7 +3,17 @@ namespace ABOP\Classes\Admin;
 
 defined( 'ABSPATH' ) || exit;
 class AdminFields {
-
+    
+    /**
+     * input_field
+     *
+     * @param  string $slug
+     * @param  string $name
+     * @param  string $description
+     * @param  string $value
+     * @param  string $type
+     * @return void
+     */
     public static function input_field($slug, $name, $description, $value, $type = 'text') {
         ?>
             <tr valign="top">
@@ -17,7 +27,16 @@ class AdminFields {
             </tr>
         <?php
     }
-
+    
+    /**
+     * textarea_field
+     *
+     * @param  string $slug
+     * @param  string $name
+     * @param  string $description
+     * @param  string $value
+     * @return void
+     */
     public static function textarea_field($slug, $name, $description, $value) {
         ?>
             <tr valign="top">
@@ -31,7 +50,16 @@ class AdminFields {
             </tr>
         <?php
     }
-
+    
+    /**
+     * wysiwyg_field
+     *
+     * @param  string $slug
+     * @param  string $name
+     * @param  string $description
+     * @param  string $value
+     * @return void
+     */
     public static function wysiwyg_field($slug, $name, $description, $value) {
         if ( ! class_exists( '_WP_Editors', false ) ) {
             require ABSPATH . WPINC . '/class-wp-editor.php';
@@ -48,7 +76,17 @@ class AdminFields {
             </tr>
         <?php
     }
-
+    
+    /**
+     * select_field
+     *
+     * @param  string $slug
+     * @param  string $name
+     * @param  string $description
+     * @param  string $value
+     * @param  array $options
+     * @return void
+     */
     public static function select_field($slug, $name, $description, $value, $options) {
         if ( ! class_exists( '_WP_Editors', false ) ) {
             require ABSPATH . WPINC . '/class-wp-editor.php';
@@ -70,7 +108,16 @@ class AdminFields {
             </tr>
         <?php
     }
-
+    
+    /**
+     * checkbox_field
+     *
+     * @param  string $slug
+     * @param  string $name
+     * @param  string $description
+     * @param  string $value
+     * @return void
+     */
     public static function checkbox_field($slug, $name, $description, $value) {
         if ( ! class_exists( '_WP_Editors', false ) ) {
             require ABSPATH . WPINC . '/class-wp-editor.php';

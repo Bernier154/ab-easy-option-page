@@ -3,18 +3,52 @@ namespace ABOP\Classes;
 
 use ABOP\Classes\Option;
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 class OptionManager {
-
     use \ABOP\Traits\Singleton;
 
     private $option_prefix      = 'abop_';
     private $registered_options = [];
+    private $options_history;
 
+    /**
+     * initialize the plugin option history.
+     * this history is used at the uninstall to cleanup de db.
+     *
+     * @return void
+     */
+    protected function __construct() {
+        $this->options_history = get_option('ab_op_options_history', []);
+    }
+
+    /**
+     * getter for the current registered options
+     *
+     * @return void
+     */
     public function get_registered_options() {
         return $this->registered_options;
     }
 
+    /**
+     * Add the option to the option history if it is not in it;
+     *
+     * @param  string $option_name
+     * @return void
+     */
+    private function maybe_option_history($option_name) {
+        if (!in_array($option_name, $this->options_history)) {
+            $this->options_history[] = $option_name;
+            update_option('ab_op_options_history', $this->options_history);
+        }
+    }
+
+    /**
+     * Register an option to the current instance of the option manager.
+     *
+     * @param  array $args
+     * @return void
+     */
     public function register_option($args) {
         if (!$this->register_args_validator($args)) {
             return false;
@@ -32,10 +66,17 @@ class OptionManager {
         if (is_admin()) {
             register_setting('abop_settings', $this->option_prefix . $args['slug']);
         }
+        $this->maybe_option_history($this->option_prefix . $args['slug']);
 
         return true;
     }
-
+    
+    /**
+     * Validate the args of the register option function. Return true or false depending on the args validity.
+     *
+     * @param  array $args
+     * @return bool
+     */
     private function register_args_validator($args) {
         $rules = [
             'name'        => ['required', 'string'],
