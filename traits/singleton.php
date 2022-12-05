@@ -1,6 +1,7 @@
 <?php 
 namespace ABOP\Traits;
 
+defined( 'ABSPATH' ) || exit;
 trait Singleton {    
 
     /**
