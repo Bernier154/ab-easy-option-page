@@ -35,3 +35,11 @@ add_action('init', 'abop_localize');
 function abop_localize(){
     load_plugin_textdomain('abop', FALSE, dirname(plugin_basename(__FILE__)).'/languages/');
 }
+
+function abop_deactivate() {
+    $manager = abop_option_manager();
+    add_action('shutdown',[$manager,'options_cleanup']);
+    delete_option('_transient_timeout_abop_update_request');
+    delete_option('_transient_abop_update_request');
+}
+register_deactivation_hook( __FILE__, 'abop_deactivate' );

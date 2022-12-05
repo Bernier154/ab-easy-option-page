@@ -7,8 +7,9 @@ defined('ABSPATH') || exit;
 class OptionManager {
     use \ABOP\Traits\Singleton;
 
-    private $option_prefix      = 'abop_';
-    private $registered_options = [];
+    private $option_prefix        = 'abop_';
+    private $history_options_slug = 'ab_op_options_history';
+    private $registered_options   = [];
     private $options_history;
 
     /**
@@ -18,7 +19,7 @@ class OptionManager {
      * @return void
      */
     protected function __construct() {
-        $this->options_history = get_option('ab_op_options_history', []);
+        $this->options_history = get_option($this->history_options_slug, []);
     }
 
     /**
@@ -39,7 +40,7 @@ class OptionManager {
     private function maybe_option_history($option_name) {
         if (!in_array($option_name, $this->options_history)) {
             $this->options_history[] = $option_name;
-            update_option('ab_op_options_history', $this->options_history);
+            update_option($this->history_options_slug, $this->options_history);
         }
     }
 
@@ -67,10 +68,9 @@ class OptionManager {
             register_setting('abop_settings', $this->option_prefix . $args['slug']);
         }
         $this->maybe_option_history($this->option_prefix . $args['slug']);
-
         return true;
     }
-    
+
     /**
      * Validate the args of the register option function. Return true or false depending on the args validity.
      *
@@ -134,6 +134,34 @@ class OptionManager {
         }
 
         return true;
+    }
+
+    /**
+     * Delete all the options previously saved by the plugin.
+     *
+     * @return void
+     */
+    public function options_cleanup() {
+        error_log(print_r($this->options_history, true));
+        foreach ($this->options_history as $option_slug) {
+            delete_option($option_slug);
+        }
+        delete_option($this->history_options_slug);
+    }
+
+    /**
+     * get_option
+     *
+     * @param  string $slug
+     * @param  bool $force_refetch
+     * @return mixed
+     */
+    public function get_option($slug, $force_refetch = false) {
+        if (in_array($slug, array_keys($this->registered_options))) {
+            return $this->registered_options[$slug]->get_value($force_refetch);
+        }
+        abop_debug_log("Could not get option $slug. Option was never registered.");
+        return null;
     }
 
 }

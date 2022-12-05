@@ -46,7 +46,14 @@ class AdminPage {
                 </table>
                 <?php submit_button();?>
             </form>
-            <p>Option page generated with AB Easy Option Page.</p>
+            <p><?php _e('Option page generated with AB Easy Option Page.','abop') ?></p>
+            <!-- <details>
+                <summary><?php _e('Developpers tools','abop') ?></summary>
+                <p>
+                    <a href="#" class="button button-secondary"><?php _e('Purge unused options','abop') ?></a>
+                    <?php _e('Will compare the options history with the currently registered options and delete unused ones from the options table.','abop') ?>
+                </p>
+            </details> -->
         </div>
       <?php
 }

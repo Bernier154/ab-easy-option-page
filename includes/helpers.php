@@ -54,6 +54,6 @@ if(!function_exists('abop_get_option')){
      */
     function abop_get_option($slug,$force_refetch = false){
         $manager = abop_option_manager();
-        $manager->get_option($slug,$force_refetch);
+        return $manager->get_option($slug,$force_refetch);
     }
 }
