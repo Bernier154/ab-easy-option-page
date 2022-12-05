@@ -14,8 +14,8 @@ class AdminPage {
      */
     public static function create_menu_page(){
         add_menu_page( 
-            apply_filters('ABOP_option_page_title',__('Option page','ABOP')), 
-            apply_filters('ABOP_option_menu_title',__('Site Options','ABOP')), 
+            apply_filters('ABOP_option_page_title',__('Option page','abop')), 
+            apply_filters('ABOP_option_menu_title',__('Site Options','abop')), 
             apply_filters('ABOP_capabilities','edit_posts'), 
             'abop_option_editing_page', 
             __CLASS__.'::generate', 
@@ -46,7 +46,9 @@ class AdminPage {
                 </table>
                 <?php submit_button();?>
             </form>
+            <?php if(apply_filters('ABOP_option_page_show_mention',true)): ?>
             <p><?php _e('Option page generated with AB Easy Option Page.','abop') ?></p>
+            <?php endif;?>
             <!-- <details>
                 <summary><?php _e('Developpers tools','abop') ?></summary>
                 <p>
