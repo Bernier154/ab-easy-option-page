@@ -14,6 +14,7 @@ class Option {
     private $slug;
     private $type;
     private $value;
+    private $options;
     private $cached = false;
 
     /**
