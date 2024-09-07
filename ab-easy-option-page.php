@@ -3,9 +3,9 @@
  * Plugin Name: AB Easy Options page
  * Description: Add an option page to your website.
  * Plugin URI: https://antoinebernier.com/plugins/ab-easy-option-page/
- * Version: 1.0.1
+ * Version: 1.0.3
  * Requires at least: 6.0
- * Requires PHP: 7.2
+ * Requires PHP: 8.1
  * Author: Antoine Bernier
  * Author URI: https://antoinebernier.com
  * License: GPL v3 or later
